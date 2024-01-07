@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcards</title>
+  <style>
+    #flashcard {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #000;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="flashcard">Click to see definition</div>
+  <button onclick="showAnswer()">Show Answer</button>
+
+  <script>
+    const flashcard = document.getElementById('flashcard');
+    const button = document.querySelector('button');
+    const synth = window.speechSynthesis;
+
+    // フラッシュカードの情報
+    const flashcardData = [
+      { term: 'JavaScript', definition: '日本では' },
+      { term: 'HTML', definition: '在日本' },
+      // 他の単語と定義を追加
+      { term: 'JavaScript', definition: '他在学习汉语。' },
+      { term: 'HTML', definition: '彼は中国語を勉強しているところだ。' },
+    ];
+
+    let currentIndex = 0;
+
+    // 答えを表示し、音声を再生する関数
+    function showAnswer() {
+      const currentData = flashcardData[currentIndex];
+      flashcard.textContent = currentData.definition;
+      speakText(currentData.definition);
+      currentIndex = (currentIndex + 1) % flashcardData.length;
+    }
+
+    // テキストを音声に変換して再生する関数
+    function speakText(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN'; // 中国語の言語コード
+      synth.speak(utterance);
+    }
+
+    // 最初のカードを表示
+    flashcard.textContent = 'Click to see definition';
+  </script>
+</body>
+</html>
